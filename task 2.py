@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import openpyxl
 import re
 import requests
+import os
 
 def main():
     # Url
@@ -72,7 +73,9 @@ def main():
             print("Failed to access to data. Status code:", response.status_code)
 
     # Save the Excel file
-    workbook.save('Top50_TVs_data.xlsx')
+    current_directory = os.getcwd() + "/OutPut/"
+    os.makedirs(current_directory, exist_ok=True)
+    workbook.save(current_directory + 'Top50_TVs_data.xlsx')
 
 
 def data_extraction(prod_desc):

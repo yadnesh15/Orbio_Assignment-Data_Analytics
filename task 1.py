@@ -8,15 +8,14 @@ import os
 import re
 
 def scrape_amazon_product(url,lst):
-    ##### Send an HTTP GET request to the Amazon product page
     response = requests.get(url)
 
-    # Check if the request was successful
+    global product_info
     if response.status_code == 200:
-        # Parse the HTML content of the page using BeautifulSoup
+        # HTMl file content
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Extract product information
+        # product information
         product_title = soup.find('span', {'id': 'productTitle'}).get_text(strip=True)
         name = re.compile(r'([\S\d\w\s]+?TV)').search(product_title).group(1)
 
@@ -110,6 +109,9 @@ if __name__ == "__main__":
         lst.append(data)
 
     import json
-    with open("data.json", 'w') as json_file:
+
+    current_directory = os.getcwd() + "/OutPut/"
+    os.makedirs(current_directory, exist_ok=True)
+    with open(current_directory+ "Task1_Output.json", 'w') as json_file:
         json.dump(lst, json_file, indent=4)
 
